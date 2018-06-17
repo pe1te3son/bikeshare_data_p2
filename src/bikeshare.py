@@ -10,6 +10,7 @@ DEFAULT_SELECT = "all"
 
 
 def get_months_list(month_num=False):
+    """Returns months"""
     month_names = ["january", "february", "march", "april", "may", "june"]
     if(month_num):
         return month_names[month_num - 1].title()
@@ -18,6 +19,7 @@ def get_months_list(month_num=False):
 
 
 def get_month():
+    """ Displays months prompt and handles selection """
     month = None
     months = get_months_list()
 
@@ -43,6 +45,7 @@ def get_month():
 
 
 def get_day():
+    """ Displays days prompt and handles selection """
     selected_day = None
     days = [
             "monday",
@@ -75,6 +78,7 @@ def get_day():
 
 
 def get_city():
+    """ Displays cities prompt and handles selection """
     print("""
 Please select city name to analyze:
         1. Chicago
@@ -247,6 +251,27 @@ def user_stats(df):
     print("-"*40)
 
 
+def display_raw_data(df):
+    """ Show raw data to user """
+    current_idx = 0
+    show_next = input("Would you like to see raw data? y/n: ")
+
+    print(df.head(15))
+    while True:
+        if show_next.lower() == "y":
+            if current_idx >= len(df):
+                print("That's it!")
+                break
+
+            df_now = df[current_idx: current_idx + 5]
+            current_idx += 5
+            print(df_now)
+
+            show_next = input("\nShow next 5 rows? y/n: ")
+        else:
+            break
+
+
 def main():
     while True:
         city, month, day = get_filters()
@@ -268,7 +293,7 @@ def main():
                 print("Day of the week: " + DEFAULT_SELECT.title())
 
             print("==================")
-            edit_selection = input("\nEdit? y/n: ")
+            edit_selection = input("\nWould You like to edit your selection? y/n: ")
             if edit_selection.lower() == "y":
                 city, month, day = get_filters()
             else:
@@ -279,6 +304,7 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
+        display_raw_data(df)
 
         restart = input("\nWould you like to restart? Enter yes or no.\n")
         if restart.lower() != "yes":
@@ -287,3 +313,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
