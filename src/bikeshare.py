@@ -256,7 +256,6 @@ def display_raw_data(df):
     current_idx = 0
     show_next = input("Would you like to see raw data? y/n: ")
 
-    print(df.head(15))
     while True:
         if show_next.lower() == "y":
             if current_idx >= len(df):
